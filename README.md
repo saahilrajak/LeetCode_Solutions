@@ -1,5 +1,5 @@
 # LeetCode_Solutions
-<!---LeetCode Topics Start-->
+All Topics covered
 # LeetCode Topics
 ## Array
 |  |
