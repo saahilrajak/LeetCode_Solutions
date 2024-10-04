@@ -1,24 +1,41 @@
 import java.util.Arrays;
+import java.util.Hashtable;
 
 class Solution {
     public long dividePlayers(int[] skill) {
-        Arrays.sort(skill); 
+        Arrays.sort(skill);
+        Hashtable<Integer, Integer> skillCount = new Hashtable<>();
+        long sum = skill[0] + skill[skill.length - 1];
+        long totalProduct = 0;
 
-        long sum = skill[0] + skill[skill.length - 1]; // Target sum for each pair
-        long totalProduct = 0; // To store the product sum of pairs
-        
+        for (int s : skill) {
+            skillCount.put(s, skillCount.getOrDefault(s, 0) + 1);
+        }
+
         int left = 0;
         int right = skill.length - 1;
 
         while (left < right) {
-            // Check if current pair matches the target sum
-            if (skill[left] + skill[right] != sum) {
-                return -1; // If the sum doesn't match, return -1
+            int leftSkill = skill[left];
+            int rightSkill = skill[right];
+
+            if (leftSkill + rightSkill != sum) {
+                return -1;
             }
-            totalProduct += (long) skill[left] * skill[right]; // Add the product of the pair to the total
+
+            if (skillCount.get(leftSkill) == 0 || skillCount.get(rightSkill) == 0) {
+                return -1;
+            }
+
+            totalProduct += (long) leftSkill * rightSkill;
+
+            skillCount.put(leftSkill, skillCount.get(leftSkill) - 1);
+            skillCount.put(rightSkill, skillCount.get(rightSkill) - 1);
+
             left++;
             right--;
         }
+
         return totalProduct;
     }
 }
