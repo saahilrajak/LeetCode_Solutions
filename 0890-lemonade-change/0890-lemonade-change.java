@@ -1,27 +1,18 @@
 class Solution {
     public boolean lemonadeChange(int[] bills) {
-        int fiveDollarBills = 0;
-        int tenDollarBills = 0;
-
-        for (int i = 0; i < bills.length; i++) {
-            if (bills[i] == 5) {
-                fiveDollarBills++;
-            } else if (bills[i] == 10) {
-                if (fiveDollarBills > 0) {
-                    fiveDollarBills--;
-                    tenDollarBills++;
-                } else {
-                    return false;
-                }
+        int five=0, ten=0;
+        for(int bill:bills){
+            if(bill==5) five++;
+            else if(bill==10){
+                if(five==0) return false;
+                five--;
+                ten++;
             } else {
-                if (tenDollarBills > 0 && fiveDollarBills > 0) {
-                    tenDollarBills--;
-                    fiveDollarBills--;
-                } else if (fiveDollarBills >= 3) {
-                    fiveDollarBills -= 3;
-                } else {
-                    return false;
-                }
+                if(ten>0 && five>0){
+                    ten--;
+                    five--;
+                } else if(five>=3)  five-=3;
+                else    return false;
             }
         }
         return true;
