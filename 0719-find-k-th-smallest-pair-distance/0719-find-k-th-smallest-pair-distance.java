@@ -14,19 +14,23 @@ class Solution {
                 high = mid;
             }
         }
+        
         return low;
     }
 
     private int countPairs(int[] nums, int mid) {
         int count = 0;
         int j = 0;
-        
-        for (int i = 0; i < nums.length; i++) {
+        int i = 0;
+
+        while (i < nums.length) {
             while (j < nums.length && nums[j] - nums[i] <= mid) {
                 j++;
             }
             count += (j - i - 1);
+            i++;
         }
+        
         return count;
     }
 }
