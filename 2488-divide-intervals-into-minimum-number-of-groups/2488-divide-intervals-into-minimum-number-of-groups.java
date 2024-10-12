@@ -1,33 +1,41 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Arrays;
 
 class Solution {
     public int minGroups(int[][] intervals) {
-        // List to store all the events
-        List<int[]> events = new ArrayList<>();
+        int n = intervals.length;
+        int[] start = new int[n];
+        int[] end = new int[n];
 
-        // For each interval, we store two events: start (+1) and end (-1)
-        for (int[] interval : intervals) {
-            events.add(new int[] {interval[0], 1});  // +1 for the start of an interval
-            events.add(new int[] {interval[1] + 1, -1}); // -1 for the end of an interval
+        // Separate start and end times into two arrays
+        for (int i = 0; i < n; i++) {
+            start[i] = intervals[i][0];
+            end[i] = intervals[i][1];
         }
 
-        // Sort events: first by time, if equal then by type (-1 before +1 to handle end before start)
-        Collections.sort(events, (a, b) -> {
-            if (a[0] == b[0]) return a[1] - b[1]; // prioritize -1 over +1 if times are equal
-            return a[0] - b[0];
-        });
+        // Sort both arrays
+        Arrays.sort(start);
+        Arrays.sort(end);
 
-        int maxCount = 0;
-        int currentCount = 0;
+        int i = 0, j = 0;   // Two pointers for start and end
+        int activeGroups = 0;
+        int maxGroups = 0;
 
-        // Sweep through the sorted events
-        for (int[] event : events) {
-            currentCount += event[1];  // Add 1 for start, subtract 1 for end
-            maxCount = Math.max(maxCount, currentCount);
+        // Traverse the start and end times
+        while (i < n) {
+            if (start[i] <= end[j]) {
+                // A new group starts, increment active groups
+                activeGroups++;
+                i++;
+            } else {
+                // A group ends, decrement active groups
+                activeGroups--;
+                j++;
+            }
+
+            // Track the maximum number of groups active at once
+            maxGroups = Math.max(maxGroups, activeGroups);
         }
 
-        return maxCount;
+        return maxGroups;
     }
 }
