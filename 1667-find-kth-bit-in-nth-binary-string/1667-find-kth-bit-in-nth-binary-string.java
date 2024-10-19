@@ -1,5 +1,7 @@
 class Solution {
     public char findKthBit(int n, int k) {
+        //Tc:O(n)
+        //Sc:O(n)
         if (n == 1) {
             return '0';
         }
